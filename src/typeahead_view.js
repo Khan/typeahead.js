@@ -81,7 +81,7 @@ var TypeaheadView = (function() {
     .on('suggestionsRendered', this._updateHint)
     .on('opened', this._updateHint)
     .on('closed', this._clearHint)
-    .on('opened closed', this._propagateEvent);
+    .on('opened closed suggestionsRendered', this._propagateEvent);
 
     this.inputView = new InputView({ input: $input, hint: $hint })
     .on('focused', this._openDropdown)
