@@ -388,6 +388,7 @@
             this.footer = o.footer;
             this.valueKey = o.valueKey || "value";
             this.template = compileTemplate(o.template, o.engine, this.valueKey);
+            this.beforeRender = o.beforeRender;
             this.local = o.local;
             this.prefetch = o.prefetch;
             this.remote = o.remote;
@@ -814,6 +815,7 @@
             },
             renderSuggestions: function(dataset, suggestions) {
                 var datasetClassName = "tt-dataset-" + dataset.name, wrapper = '<div class="tt-suggestion">%body</div>', compiledHtml, $suggestionsList, $dataset = this.$menu.find("." + datasetClassName), elBuilder, fragment, $el;
+                suggestions = dataset.beforeRender ? dataset.beforeRender(suggestions) : suggestions;
                 if ($dataset.length === 0) {
                     $suggestionsList = $(html.suggestionsList).css(css.suggestionsList);
                     $dataset = $("<div></div>").addClass(datasetClassName).append(dataset.header).append($suggestionsList).append(dataset.footer).appendTo(this.$menu);

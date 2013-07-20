@@ -31,6 +31,9 @@ var Dataset = (function() {
     this.valueKey = o.valueKey || 'value';
     this.template = compileTemplate(o.template, o.engine, this.valueKey);
 
+    // callback for altering to-be-rendered suggestion datums before render
+    this.beforeRender = o.beforeRender;
+
     // used then deleted in #initialize
     this.local = o.local;
     this.prefetch = o.prefetch;

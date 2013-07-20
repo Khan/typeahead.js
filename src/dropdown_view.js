@@ -208,6 +208,9 @@ var DropdownView = (function() {
           fragment,
           $el;
 
+      suggestions = (dataset.beforeRender ?
+            dataset.beforeRender(suggestions) : suggestions);
+
       // first time rendering suggestions for this dataset
       if ($dataset.length === 0) {
         $suggestionsList = $(html.suggestionsList).css(css.suggestionsList);
