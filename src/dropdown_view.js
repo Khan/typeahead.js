@@ -184,6 +184,14 @@ var DropdownView = (function() {
       this._moveCursor(+1);
     },
 
+    setCursor: function(index) {
+      this.$menu
+        .find('.tt-suggestions > .tt-suggestion')
+        .removeClass('tt-is-under-cursor');
+
+      this._moveCursor(index);
+    },
+
     getSuggestionUnderCursor: function() {
       var $suggestion = this._getSuggestions()
           .filter('.tt-is-under-cursor')

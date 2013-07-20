@@ -74,6 +74,16 @@
 
         view && view.setQuery(query);
       }
+    },
+
+    setCursor: function(index) {
+      return this.each(setCursor);
+
+      function setCursor() {
+        var view = $(this).data(viewKey);
+
+        view && view.dropdownView.setCursor(index);
+      }
     }
   };
 

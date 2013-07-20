@@ -805,6 +805,10 @@
             moveCursorDown: function() {
                 this._moveCursor(+1);
             },
+            setCursor: function(index) {
+                this.$menu.find(".tt-suggestions > .tt-suggestion").removeClass("tt-is-under-cursor");
+                this._moveCursor(index);
+            },
             getSuggestionUnderCursor: function() {
                 var $suggestion = this._getSuggestions().filter(".tt-is-under-cursor").first();
                 return $suggestion.length > 0 ? extractSuggestion($suggestion) : null;
@@ -1127,6 +1131,13 @@
                 function setQuery() {
                     var view = $(this).data(viewKey);
                     view && view.setQuery(query);
+                }
+            },
+            setCursor: function(index) {
+                return this.each(setCursor);
+                function setCursor() {
+                    var view = $(this).data(viewKey);
+                    view && view.dropdownView.setCursor(index);
                 }
             }
         };
