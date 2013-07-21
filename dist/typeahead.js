@@ -916,7 +916,7 @@
             $hint = this.$node.find(".tt-hint");
             this.dropdownView = new DropdownView({
                 menu: $menu
-            }).on("suggestionSelected", this._handleSelection).on("cursorMoved", this._clearHint).on("cursorMoved", this._setInputValueToSuggestionUnderCursor).on("cursorRemoved", this._setInputValueToQuery).on("cursorRemoved", this._updateHint).on("suggestionsRendered", this._updateHint).on("opened", this._updateHint).on("closed", this._clearHint).on("opened closed", this._propagateEvent);
+            }).on("suggestionSelected", this._handleSelection).on("cursorMoved", this._clearHint).on("cursorMoved", this._setInputValueToSuggestionUnderCursor).on("cursorRemoved", this._setInputValueToQuery).on("cursorRemoved", this._updateHint).on("suggestionsRendered", this._updateHint).on("opened", this._updateHint).on("opened", this._getSuggestions).on("closed", this._clearHint).on("opened closed", this._propagateEvent);
             this.inputView = new InputView({
                 input: $input,
                 hint: $hint
@@ -995,7 +995,12 @@
             _getSuggestions: function() {
                 var that = this, query = this.inputView.getQuery();
                 if (utils.isBlankString(query)) {
-                    return;
+                    var allowsBlank = utils.some(this.datasets, function(dataset) {
+                        return dataset.minLength <= 0;
+                    });
+                    if (!allowsBlank) {
+                        return;
+                    }
                 }
                 utils.each(this.datasets, function(i, dataset) {
                     dataset.getSuggestions(query, function(suggestions) {

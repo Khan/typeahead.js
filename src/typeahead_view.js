@@ -80,6 +80,7 @@ var TypeaheadView = (function() {
     .on('cursorRemoved', this._updateHint)
     .on('suggestionsRendered', this._updateHint)
     .on('opened', this._updateHint)
+    .on('opened', this._getSuggestions)
     .on('closed', this._clearHint)
     .on('opened closed', this._propagateEvent);
 
@@ -224,7 +225,14 @@ var TypeaheadView = (function() {
     _getSuggestions: function() {
       var that = this, query = this.inputView.getQuery();
 
-      if (utils.isBlankString(query)) { return; }
+      if (utils.isBlankString(query)) {
+        // if no dataset supports empty queries and the input string is blank,
+        // bail early
+        var allowsBlank = utils.some(this.datasets, function(dataset) {
+          return dataset.minLength <= 0;
+        });
+        if (!allowsBlank) { return; }
+      }
 
       utils.each(this.datasets, function(i, dataset) {
         dataset.getSuggestions(query, function(suggestions) {
