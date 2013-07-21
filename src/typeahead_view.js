@@ -160,7 +160,9 @@ var TypeaheadView = (function() {
         beginsWithQuery = new RegExp('^(?:' + escapedQuery + ')(.*$)', 'i');
         match = beginsWithQuery.exec(hint);
 
-        this.inputView.setHintValue(inputValue + (match ? match[1] : ''));
+        if (!utils.isBlankString(inputValue)) {
+          this.inputView.setHintValue(inputValue + (match ? match[1] : ''));
+        }
       }
     },
 
