@@ -90,7 +90,12 @@ var Dataset = (function() {
       }
 
       else {
-        deferred = $.getJSON(o.url).done(processPrefetchData);
+
+        if (o.deferred) {
+            deferred = o.deferred.done(processPrefetchData);
+        } else {
+            deferred = $.getJSON(o.url).done(processPrefetchData);
+        }
       }
 
       return deferred;
